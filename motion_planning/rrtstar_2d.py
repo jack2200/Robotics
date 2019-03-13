@@ -88,8 +88,8 @@ class RRT():
     def sample(self):
         p = random.randint(0,100)
         if p > self.goal_sample_rate:
-            rnd = [random.uniform(self.search_area[0],self.search_area[1]),
-                       random.uniform(self.search_area[0],self.search_area[1])]
+            rnd = [random.randint(self.search_area[0],self.search_area[1]),
+                       random.randint(self.search_area[0],self.search_area[1])]
         else:
             rnd = [self.goal.x,self.goal.y]
         return rnd
@@ -175,9 +175,10 @@ class RRT():
             scost = newNode.cost + d
 
             if nearNode.cost > scost:
+		#print "Rewiring ",nearNode.x,",",nearNode.y, "with ",newNode.x,",",newNode.y
                 theta = math.atan2(dy, dx)
                 if self.check_intermediate_collision(nearNode, d, theta):
-                    print("Node ",i," has new parent ",nnode-1)
+                    
                     nearNode.parent = nnode - 1
                     nearNode.cost = scost
 
@@ -196,8 +197,6 @@ def main():
     start = time.clock()
     path = rrt.plan()
     end = time.clock()
-    for i in range(len(rrt.nodeList)):
-        print(rrt.nodeList[i].parent)
     if path is None:
         print("Cannot find a suitable path")
     else:
