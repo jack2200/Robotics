@@ -41,7 +41,7 @@ class RRTStar3D():
             z_new = self.steer(z_rnd,z_nearest)
             if self.obstacle_free(z_new):
                 z_near_inds = self.near(z_new) # A list of node indices
-                z_new = self.choose_parent(z_near_inds,z_new)
+                z_new = self.connect_shortest_valid(z_near_inds,z_new)
                 self.nodeList.append(z_new)
                 self.rewire(z_new,z_near_inds)
             if i%5==0:
@@ -135,7 +135,7 @@ class RRTStar3D():
         return True
     
     # Chooses the best parent from nearby nodes.
-    def choose_parent(self,z_near_inds,z_new):
+    def connect_shortest_valid(self,z_near_inds,z_new):
         if len(z_near_inds) == 0:
             return z_new
         dlist = []
